@@ -200,4 +200,4 @@ P(Not Promoted) = 50,140 / 54,808 = 91.5% → log = -0.089
 
 ---
 
-*Group 2 | Machine Learning | HR Analytics — Employee Promotion Prediction*
+*Group 2 | CMSC 170: Introduction to Artificial Intelligence | HR Analytics — Employee Promotion Prediction*
