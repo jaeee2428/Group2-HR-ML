@@ -165,10 +165,11 @@ This creates `output/probability_tables.xlsx` with **5 worksheets**:
 ---
 
 ## Group 2 Members
-*Jerald Cabrera*
-*Jesse Keane Catedral*
-*Arnine Conejos*
-*Princess Jaena Marie O. De la Pena*
+### Group 2 Members
+* Jerald Cabrera
+* Jesse Keane Catedral
+* Arnine Conejos
+* Princess Jaena Marie O. De la Pena
 
 **Course:** Machine Learning
 **Algorithm:** Categorical Naive Bayes with Laplace Smoothing (α=1)
