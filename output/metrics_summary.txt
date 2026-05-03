@@ -1,0 +1,36 @@
+HR ANALYTICS - NAIVE BAYES METRICS SUMMARY
+==================================================
+
+Model       : Categorical Naive Bayes (alpha=1)
+Dataset     : train.xlsx (54,808 rows)
+Split       : 80% train / 20% validation (stratified)
+
+VALIDATION SET METRICS
+  Accuracy  : 0.9153
+  Precision : 0.5153
+  Recall    : 0.0899
+  F1-Score  : 0.1531
+  AUC-ROC   : 0.7929
+
+5-FOLD CROSS-VALIDATION
+  CV Accuracy: 0.9139 +/- 0.0015
+  CV F1      : 0.1324 +/- 0.0108
+  CV AUC     : 0.7842 +/- 0.0090
+
+CONFUSION MATRIX
+  TN=9,949  FP=79
+  FN=850  TP=84
+
+FEATURE RANKING (by discrimination power)
+  awards_won?              : 2.1071
+  region                   : 1.3806
+  previous_year_rating     : 1.2639
+  avg_training_score       : 0.8498
+  KPIs_met >80%            : 0.8220
+  education                : 0.5613
+  department               : 0.4789
+  recruitment_channel      : 0.4026
+  age                      : 0.1990
+  gender                   : 0.0425
+  length_of_service        : 0.0324
+  no_of_trainings          : 0.0000
