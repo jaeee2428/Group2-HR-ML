@@ -3,15 +3,48 @@
 
 ---
 
+## Project Information
+
+- **Course:** CMSC 170 — Introduction to Artificial Intelligence
+- **Algorithm:** Categorical Naive Bayes with Laplace Smoothing (α=1)
+- **Dataset:** HR Analytics — Employee Promotion Prediction (`train.xlsx`)
+
+---
+
+## Group 2 Members
+
+- Jerald Cabrera
+- Jesse Keane Catedral
+- Arnine Conejos
+- Princess Jaena Marie O. De la Pena
+
+---
+
 ## Project Overview
 
-This project builds a **Categorical Naive Bayes** classifier to predict which employees are likely to be promoted, using an HR dataset of **54,808 records** from `train.xlsx`. The model uses an internal 80/20 train-validation split — no separate test file is needed.
+### Problem Statement
 
-**Why Naive Bayes?**
-- The dataset has predominantly **categorical and binary features** (department, gender, KPIs_met >80%, awards_won?) — exactly what Categorical Naive Bayes is designed for.
-- It is **interpretable**: every prediction can be traced back to computed prior and likelihood probabilities.
-- Works well even with **imbalanced classes** (only 8.5% promoted) when probability thresholds are tuned.
-- **Fast to train** on 50,000+ records with no hyperparameter tuning required.
+Every year, a company must decide which of its **54,808 employees** should be promoted. Currently, only about **8.5% of employees** are promoted annually — but identifying the right candidates is difficult, time-consuming, and can be influenced by unconscious bias.
+
+This project solves the following problem:
+
+> **Can we build a machine learning model that fairly and accurately predicts which employees are most likely to be promoted, based on objective data such as performance ratings, training scores, and KPI achievement?**
+
+Without a data-driven system, HR teams risk:
+- **Missing high-performing employees** who deserve promotion
+- **Promoting based on bias** rather than merit
+- **Wasting resources** on manual review of thousands of records
+
+### Our Solution
+
+We apply **Categorical Naive Bayes**, a probabilistic classifier, to learn patterns from historical promotion data. Given an employee's profile (department, ratings, KPIs, awards, etc.), the model computes the **probability of promotion** for each individual and flags the most likely candidates.
+
+### Why Naive Bayes?
+
+- **Fits the data perfectly** — the dataset is dominated by categorical and binary features (department, gender, `KPIs_met >80%`, `awards_won?`), which Categorical Naive Bayes handles natively
+- **Interpretable** — every prediction traces back to computed prior and likelihood probabilities that HR staff can understand and audit
+- **Handles imbalanced classes** — with only 8.5% of employees promoted, the model's probability output can be threshold-tuned for real HR decisions
+- **Fast and scalable** — trains on 50,000+ records in seconds with no hyperparameter tuning required
 
 ---
 
@@ -19,21 +52,36 @@ This project builds a **Categorical Naive Bayes** classifier to predict which em
 
 ```
 Group 2 - HR/
-├── train.xlsx                    <- Raw data (54,808 rows, 14 columns, WITH labels)
+├── train.xlsx                      <- Raw data (54,808 rows, 14 columns, WITH labels)
+├── NaiveBayes_HR_Manual_.xlsx      <- Manual computation sample (50 employees)
 │
-├── naive_bayes_hr.py             <- MAIN SCRIPT: trains model, evaluates, saves results
-├── generate_probability_table.py <- Generates Excel probability spreadsheet
+├── naive_bayes_hr.py               <- MAIN SCRIPT: trains model, evaluates, saves results
+├── generate_probability_table.py   <- Generates Excel probability spreadsheet
 │
-├── README.md                     <- This guide (how to run)
-├── RESULTS_EXPLAINED.md          <- Full explanation of results and metrics
+├── README.md                       <- This guide (how to run)
+├── RESULTS_EXPLAINED.md            <- Full plain-English explanation of all results
 │
-└── output/                       <- Auto-created when scripts run
+└── output/                         <- Auto-created when scripts run
     ├── validation_predictions.csv  <- Predictions for 10,962 validation employees
     ├── probability_tables.xlsx     <- Naive Bayes probability tables (5 sheets)
     ├── evaluation_plots.png        <- Confusion matrix + ROC curve
     ├── feature_importance.png      <- Feature discrimination chart
-    └── metrics_summary.txt         <- Plain-text metrics
+    └── metrics_summary.txt         <- Plain-text metrics summary
 ```
+
+---
+
+## Manual Computation Sample
+
+The file **`NaiveBayes_HR_Manual_.xlsx`** contains a **hand-computed Naive Bayes walkthrough** using a sample of **50 employees** drawn from `train.xlsx`.
+
+It demonstrates step by step:
+- How prior probabilities P(Promoted) and P(Not Promoted) are calculated from the dataset
+- How likelihood tables P(feature | class) are built for each feature
+- How the posterior probability is computed for each of the 50 sample employees
+- How the final promotion prediction is made by comparing class posteriors
+
+> This file is provided as a **manual verification** of the algorithm to show that the Python implementation correctly mirrors the mathematical computation by hand.
 
 ---
 
@@ -41,15 +89,13 @@ Group 2 - HR/
 
 Python 3.8+ with the following packages:
 
-```
-pandas
-numpy
-scikit-learn
-matplotlib
-seaborn
-openpyxl
-xlsxwriter
-```
+- `pandas`
+- `numpy`
+- `scikit-learn`
+- `matplotlib`
+- `seaborn`
+- `openpyxl`
+- `xlsxwriter`
 
 ### Install all dependencies at once:
 
@@ -70,12 +116,13 @@ python -X utf8 naive_bayes_hr.py
 ```
 
 This script will:
+
 1. Load `train.xlsx`
 2. Impute missing values (`education` → "Unknown"; `previous_year_rating` → median)
 3. Encode categorical features with `LabelEncoder`
 4. Discretise numerical features into 5 quantile bins for `CategoricalNB`
 5. Split data: **80% training** (43,846 rows) / **20% validation** (10,962 rows), stratified
-6. Train a **CategoricalNB** model (Laplace smoothing α=1)
+6. Train a **CategoricalNB** model with Laplace smoothing α=1
 7. Evaluate: Accuracy, Precision, Recall, **F1-Score**, AUC-ROC
 8. Run **5-fold stratified cross-validation**
 9. Save `output/validation_predictions.csv`
@@ -84,6 +131,7 @@ This script will:
 12. Save `output/metrics_summary.txt`
 
 **Expected console output:**
+
 ```
 [4] Training Categorical Naive Bayes (alpha=1, Laplace smoothing)...
 
@@ -132,7 +180,7 @@ This creates `output/probability_tables.xlsx` with **5 worksheets**:
 | `recruitment_channel` | Categorical | sourcing / other / referred |
 | `no_of_trainings` | Numerical | Number of trainings attended (binned into 5 groups) |
 | `age` | Numerical | Employee age (binned into 5 groups) |
-| `previous_year_rating` | Numerical | Performance rating 1–5 (4,124 missing → imputed with median=3.0) |
+| `previous_year_rating` | Numerical | Performance rating 1–5 (4,124 missing → imputed with median = 3.0) |
 | `length_of_service` | Numerical | Years at company (binned) |
 | `KPIs_met >80%` | Binary | 1 if employee met >80% of KPIs |
 | `awards_won?` | Binary | 1 if employee won an award |
@@ -154,23 +202,28 @@ This creates `output/probability_tables.xlsx` with **5 worksheets**:
 | CV AUC (5-fold mean) | 78.42% ± 0.90% |
 
 **Top 5 discriminating features:**
-1. `awards_won?` — strongest predictor
-2. `region` — promotion rates vary by location
-3. `previous_year_rating` — high performers more likely promoted
-4. `avg_training_score` — training quality matters
-5. `KPIs_met >80%` — KPI achievement is a strong signal
 
-> See `RESULTS_EXPLAINED.md` for full plain-English explanations of every metric, the confusion matrix breakdown, and feature analysis.
+1. `awards_won?` — strongest predictor
+2. `region` — promotion rates vary significantly by location
+3. `previous_year_rating` — high performers are much more likely to be promoted
+4. `avg_training_score` — training quality correlates strongly with promotion
+5. `KPIs_met >80%` — meeting KPI targets is a strong positive signal
+
+> See `RESULTS_EXPLAINED.md` for full explanations of every metric, the confusion matrix breakdown, and feature analysis.
 
 ---
 
 ## Group 2 Members
-### Group 2 Members
-* Jerald Cabrera
-* Jesse Keane Catedral
-* Arnine Conejos
-* Princess Jaena Marie O. De la Pena
 
-**Course:** Machine Learning
-**Algorithm:** Categorical Naive Bayes with Laplace Smoothing (α=1)
-**Dataset:** HR Analytics — Employee Promotion Prediction (train.xlsx)
+- Jerald Cabrera
+- Jesse Keane Catedral
+- Arnine Conejos
+- Princess Jaena Marie O. De la Pena
+
+---
+
+## Course Details
+
+- **Course:** CMSC 170 — Introduction to Artificial Intelligence
+- **Algorithm:** Categorical Naive Bayes with Laplace Smoothing (α=1)
+- **Dataset:** HR Analytics — Employee Promotion Prediction (`train.xlsx`)
