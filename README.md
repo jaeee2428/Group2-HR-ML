@@ -210,20 +210,3 @@ This creates `output/probability_tables.xlsx` with **5 worksheets**:
 5. `KPIs_met >80%` — meeting KPI targets is a strong positive signal
 
 > See `RESULTS_EXPLAINED.md` for full explanations of every metric, the confusion matrix breakdown, and feature analysis.
-
----
-
-## Group 2 Members
-
-- Jerald Cabrera
-- Jesse Keane Catedral
-- Arnine Conejos
-- Princess Jaena Marie O. De la Pena
-
----
-
-## Course Details
-
-- **Course:** CMSC 170 — Introduction to Artificial Intelligence
-- **Algorithm:** Categorical Naive Bayes with Laplace Smoothing (α=1)
-- **Dataset:** HR Analytics — Employee Promotion Prediction (`train.xlsx`)
